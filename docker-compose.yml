@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  bob:
+    build:
+      context: .
+      dockerfile: Dockerfile.bob
+    networks:
+      - qkd-network
+    container_name: bob
+    ports:
+      - "65435:65435"  # Optional: Expose port if needed for debugging
+
+  eve:
+    build:
+      context: .
+      dockerfile: Dockerfile.eve
+    networks:
+      - qkd-network
+    depends_on:
+      - bob
+    container_name: eve
+    ports:
+      - "65434:65434"  # Optional: Expose port if needed for debugging
+
+  alice:
+    build:
+      context: .
+      dockerfile: Dockerfile.alice
+    networks:
+      - qkd-network
+    depends_on:
+      - eve
+    container_name: alice
+    ports:
+      - "65433:65433"  # Optional: Expose port if needed for debugging
+
+networks:
+  qkd-network:
+    driver: bridge

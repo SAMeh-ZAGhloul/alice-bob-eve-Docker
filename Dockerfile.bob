@@ -1,0 +1,18 @@
+# Use an appropriate base image
+FROM python:3.9
+
+# Set working directory
+WORKDIR /app
+
+# Copy the script into the container
+COPY bob3.py /app/bob.py
+
+# Install required packages
+RUN apt-get -y update
+RUN apt-get -y upgrade
+RUN python -m pip cache list
+RUN python -m pip install qiskit qiskit_aer
+
+# Command to run the application
+CMD ["python", "bob.py"]
+
